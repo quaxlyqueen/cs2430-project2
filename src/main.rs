@@ -1,3 +1,5 @@
+const i32 set_size = 5;
+
 fn set_intersection(a: [i32; 5], b: [i32; 5]) {
     for i in 0..a.len() {
         for j in 0..b.len() {
@@ -6,6 +8,10 @@ fn set_intersection(a: [i32; 5], b: [i32; 5]) {
             }
         }
     }
+}
+
+fn set_union(a: [i32; 5], b: [i32; 5]) {
+
 }
 
 fn main() {
