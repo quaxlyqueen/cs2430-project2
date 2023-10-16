@@ -1,6 +1,8 @@
+//use std::io;
 use rand::Rng;
 
-const SIZE: usize = 100;
+const A_SIZE: usize = 100;
+const B_SIZE: usize = 100;
 
 fn main() {
     let mut rng = rand::thread_rng();
@@ -8,11 +10,12 @@ fn main() {
     let mut a = Vec::new();
     let mut b = Vec::new();
 
-    let mut count = 0;
-    while count < SIZE {
-        a.push(rng.gen_range(0..SIZE));
-        b.push(rng.gen_range(0..SIZE));
-        count = count + 1;
+    for i in 0..A_SIZE {
+        a.push(rng.gen_range(0..100));
+    }
+
+    for i in 0..B_SIZE {
+        b.push(rng.gen_range(0..100));
     }
 
     println!("\n\nunion:");
@@ -44,7 +47,6 @@ fn main() {
     }
 }
 
-// Get the set (represented as a vector) containing the union or intersection of sets a and b (also represented as vectors).
 fn union_or_intersection(a: &Vec<usize>, b: &Vec<usize>, u_or_i: u32) -> Vec<usize> {
     let mut x = Vec::new();
 
@@ -55,12 +57,12 @@ fn union_or_intersection(a: &Vec<usize>, b: &Vec<usize>, u_or_i: u32) -> Vec<usi
     for n in 0..b.len() {
         let mut z = true;
         for j in 0..a.len() {
-            if u_or_i == 0 {            // Union of a and b
+            if u_or_i == 0 { // Union of a and b
                 if b[n] == a[j] {
                     z = false;
                     break;
                 }
-            } else if u_or_i == 1 {     // Intersection of a and b
+            } else if u_or_i == 1 { // Intersection of a and b
                 if b[n] != a[j] {
                     z = false;
                     break;
@@ -76,7 +78,6 @@ fn union_or_intersection(a: &Vec<usize>, b: &Vec<usize>, u_or_i: u32) -> Vec<usi
     return x;
 }
 
-// Get the set (represented as a vector) containing the difference or symmetric difference of sets a and b (also represented as vectors).
 fn diff_or_symdiff(a: &Vec<usize>, b: &Vec<usize>, symmetric: u32) -> Vec<usize> {
     let mut x = Vec::new();
 
@@ -93,7 +94,7 @@ fn diff_or_symdiff(a: &Vec<usize>, b: &Vec<usize>, symmetric: u32) -> Vec<usize>
         }
     }
 
-    if symmetric == 1 {                 // If we're getting the symmetric difference
+    if symmetric == 1 {
         for i in 0..b.len() {
             let mut z = true;
 
