@@ -72,8 +72,7 @@ fn union_or_intersection(a: &Vec<usize>, b: &Vec<usize>, u_or_i: u32) -> Vec<usi
             x.push(b[n]);
         }
     }
-
-    return x;
+    x
 }
 
 // Get the set (represented as a vector) containing the difference or symmetric difference of sets a and b (also represented as vectors).
