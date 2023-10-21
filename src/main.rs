@@ -1,110 +1,67 @@
-use rand::Rng;
+mod multiset_operations;
+mod set_operations;
 
-const SIZE: usize = 100;
+use multiset_operations::MultiSet;
+use set_operations::Set;
 
 fn main() {
-    let mut rng = rand::thread_rng();
+    let a = Set::from_vec(vec![
+        true, false, true, false, true, false, true, false, true, false,
+    ]);
 
-    let mut a = Vec::new();
-    let mut b = Vec::new();
+    let b = Set::from_vec(vec![
+        false, true, false, true, false, true, false, true, false, true,
+    ]);
 
-    let mut count = 0;
-    while count < SIZE {
-        a.push(rng.gen_range(0..SIZE));
-        b.push(rng.gen_range(0..SIZE));
-        count = count + 1;
-    }
+    // Multisets, where each element (ie. element 0, 1, 2) has a count
+    let a_mult = MultiSet::from_vec(vec![3, 2, 0, 0, 0, 0, 0, 0, 0, 0]);
+    let b_mult = MultiSet::from_vec(vec![0, 1, 4, 0, 0, 0, 0, 0, 0, 0]);
 
-    println!("\n\nunion:");
-    let u = union_or_intersection(&a, &b, 0);
-    for i in 0..u.len() {
-        let x = u[i];
-        print!("{x} ");
-    }
+    println!("Set A:");
+    a.display();
+    println!("Set B:");
+    b.display();
 
-    println!("\n\nintersection:");
-    let inter = union_or_intersection(&a, &b, 1);
-    for i in 0..inter.len() {
-        let x = inter[i];
-        print!("{x} ");
-    }
+    // A and B sets together
+    let a_union_b = a.union(&b);
+    println!("A union B:");
+    a_union_b.display();
 
-    println!("\n\ndifference:");
-    let diff = diff_or_symdiff(&a, &b, 0);
-    for i in 0..diff.len() {
-        let x = diff[i];
-        print!("{x} ");
-    }
+    // The common elements between sets A and B.
+    let a_intersection_b = a.intersection(&b);
+    println!("A intersection B:");
+    a_intersection_b.display();
 
-    println!("\n\nsymmetric difference:");
-    let sym_diff = diff_or_symdiff(&a, &b, 1);
-    for i in 0..sym_diff.len() {
-        let x = sym_diff[i];
-        print!("{x} ");
-    }
-}
+    // Elements that are a part of set B are no longer a part of set A.
+    let a_difference_b = a.difference(&b);
+    println!("A difference B:");
+    a_difference_b.display();
 
-// Get the set (represented as a vector) containing the union or intersection of sets a and b (also represented as vectors).
-fn union_or_intersection(a: &Vec<usize>, b: &Vec<usize>, u_or_i: u32) -> Vec<usize> {
-    let mut x = Vec::new();
+    // Remove the common elements from set A and B.
+    let a_symmetric_difference_b = a.symmetric_difference(&b);
+    println!("A symmetric difference B:");
+    a_symmetric_difference_b.display();
 
-    for n in 0..a.len() {
-        x.push(a[n]);
-    }
+    println!("MultiSet A:");
+    a_mult.display();
+    println!("MultiSet B:");
+    b_mult.display();
 
-    for n in 0..b.len() {
-        let mut z = true;
-        for j in 0..a.len() {
-            if u_or_i == 0 {            // Union of a and b
-                if b[n] == a[j] {
-                    z = false;
-                    break;
-                }
-            } else if u_or_i == 1 {     // Intersection of a and b
-                if b[n] != a[j] {
-                    z = false;
-                    break;
-                }
-            }
-        }
+    // Union of both multisets A and B 
+    let a_union_b = a_mult.union(&b_mult);
+    println!("A union B:");
+    a_union_b.display();
 
-        if z {
-            x.push(b[n]);
-        }
-    }
-    x
-}
+    // Common elements between multisets A and B
+    let a_intersection_b = a_mult.intersection(&b_mult);
+    println!("A intersection B:");
+    a_intersection_b.display();
 
-// Get the set (represented as a vector) containing the difference or symmetric difference of sets a and b (also represented as vectors).
-fn diff_or_symdiff(a: &Vec<usize>, b: &Vec<usize>, symmetric: u32) -> Vec<usize> {
-    let mut x = Vec::new();
+    // Removing any common elements of set B from set A
+    let a_difference_b = a_mult.difference(&b_mult);
+    println!("A difference B:");
+    a_difference_b.display();
 
-    for i in 0..a.len() {
-        let mut z = true;
-
-        for j in 0..b.len() {
-            if a[i] == b[j] {
-                z = false;
-            }
-        }
-        if z {
-            x.push(a[i]);
-        }
-    }
-
-    if symmetric == 1 {                 // If we're getting the symmetric difference
-        for i in 0..b.len() {
-            let mut z = true;
-
-            for j in 0..a.len() {
-                if b[i] == a[j] {
-                    z = false;
-                }
-            }
-            if z {
-                x.push(b[i]);
-            }
-        }
-    }
-    x
+    println!("Sum of elements in A: {}", a_mult.sum());
+    println!("Sum of elements in B: {}", b_mult.sum());
 }
