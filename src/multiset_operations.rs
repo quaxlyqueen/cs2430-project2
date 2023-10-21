@@ -7,6 +7,7 @@ impl MultiSet {
         MultiSet { elements: vec }
     }
 
+    // Get the combination of values between the two multisets.
     pub fn union(&self, other: &MultiSet) -> MultiSet {
         MultiSet {
             elements: self
@@ -18,6 +19,7 @@ impl MultiSet {
         }
     }
 
+    // Get the minimum count of an element between two multisets.
     pub fn intersection(&self, other: &MultiSet) -> MultiSet {
         MultiSet {
             elements: self
@@ -29,6 +31,7 @@ impl MultiSet {
         }
     }
 
+    // Subtract the count of the element in multiset B from multiset A.
     pub fn difference(&self, other: &MultiSet) -> MultiSet {
         MultiSet {
             elements: self
@@ -40,13 +43,15 @@ impl MultiSet {
         }
     }
 
+    // Add the count of the elements between two multisets
     pub fn sum(&self) -> usize {
         self.elements.iter().sum()
     }
 
+    // List each element value and the count of that element.
     pub fn display(&self) {
         for (index, &count) in self.elements.iter().enumerate() {
-            println!("Element {}: Count {}", index, count);
+            println!("Element {index}: Count {count}");
         }
     }
 }
